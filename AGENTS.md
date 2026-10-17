@@ -90,3 +90,9 @@ See [docs/agents.md](docs/agents.md) for the decision matrix and [references/orc
 Skills in this repo are markdown-first: each lives at `skills/<kebab-case-name>/SKILL.md` with YAML frontmatter (`name`, `description`) and follows the section anatomy (Overview, When to Use, Process, Common Rationalizations, Red Flags, Verification). Add a `scripts/` directory only when the skill ships runnable helpers; most skills are markdown only, and there are no per-skill zip packages.
 
 For the full format, naming conventions, frontmatter rules, supporting-file thresholds, and writing principles, see [docs/skill-anatomy.md](docs/skill-anatomy.md), the single source of truth for skill structure. Do not restate that guidance here, link to it.
+
+## Cursor Cloud specific instructions
+
+There is no `package.json` and nothing to install. Validators are dependency-free Node scripts. Node 20+ (the default image provides 22; CI pins 24 in `.github/workflows/test-plugin-install.yml`), `bash`, and `jq` are enough. Do not run `npm install`.
+
+Run the verification loop in [docs/developer-onboarding.md](docs/developer-onboarding.md). CI in `.github/workflows/test-plugin-install.yml` also runs `node --test` beside each validator, plus `node scripts/validate-versions.js`, `node scripts/validate-reference-links.js`, `node scripts/validate-artifact-paths.js`, `bash hooks/sdd-cache-test.sh`, and `bash hooks/simplify-ignore-test.sh`. Tier 3 behavioral evals and `claude plugin validate` need the Claude Code CLI, which this environment does not install.
